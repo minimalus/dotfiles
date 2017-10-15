@@ -1,33 +1,67 @@
+"""""""""""""""""""""""""""""""""""""
+set encoding=utf8
+
+"": Start vim-plug setup
 " Specify a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
-
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-Plug 'junegunn/vim-easy-align'
-
-" Any valid git URL is allowed
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
-" Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-" Using a non-master branch
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'fatih/vim-go', { 'tag': '*' }
-
-" Plugin options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-
-" Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
-" Unmanaged plugin (manually installed and updated)
-Plug '~/my-prototype-plugin'
-
+Plug 'vim-syntastic/syntastic' " syntax checking
+Plug 'junegunn/fzf' "interactive Unix filter for command-line
+Plug 'junegunn/fzf.vim' "Things you can do with fzf and Vim
+Plug 'scrooloose/nerdtree' "file system explorer for the Vim editor
+Plug 'benmills/vimux' "make interacting with tmux from vim effortless
+"Plug 'junegunn/vim-easy-align'
+Plug 'SirVer/ultisnips' "ultimate solution for snippets in Vim
+Plug 'honza/vim-snippets' "Snippets are separated from the engine
+"Plug 'Valloric/YouCompleteMe' "fast, as-you-type, fuzzy-search code completion engine for Vim
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "dark powered neo-completion It provides an asynchronous keyword completion system in the current buffer. 
+Plug 'zchee/deoplete-jedi' "deoplete.nvim source for jedi, python auto completion
+Plug 'zchee/deoplete-clang' "C/C++/Objective-C/Objective-C++ source for deoplete.nvim
+Plug 'flazz/vim-colorschemes' "one stop shop for vim colorschemes.
 " Initialize plugin system
 call plug#end()
+
+
+"""""""""""""""""""""""""""""""""""""
+" Configuration Section
+"""""""""""""""""""""""""""""""""""""
+" Do not wrap text
+set nowrap
+
+" Show linenumbers
+set number
+
+" Set Proper Tabs
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab " converts tabs to spaces
+autocmd Filetype cpp setlocal ts=2 sw=2 sts=0 expandtab
+autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
+
+" Always display the status line
+set laststatus=2
+
+" Enable highlighting of the current line
+set cursorline
+
+" Theme and Styling 
+syntax on
+colorscheme badwolf 
+"colorscheme molokai 
+"colorscheme 256-grayvim 
+"colorscheme molokai
+"colorscheme neverland-darker
+"colorscheme midnight
+"colorscheme dracula
+set t_Co=256
+let base16colorspace=256  " Access colors present in 256 colorspace
+ 
+" Vim-Airline Configuration
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1 
+let g:airline_theme='hybrid'
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1 
+
+
+

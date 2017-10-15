@@ -6,6 +6,8 @@ sudo apt-get install -y software-properties-common
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt-get update
 sudo apt-get install -y neovim
+sudo pip3 install neovim # get python support for neovim
+sudo apt-get install -y clang # for autocompeltion of C++
 
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
 sudo update-alternatives --config vi
@@ -24,7 +26,8 @@ fi
 #################
 ## install zsh ##
 #################
-
+sudo apt-get install -y zsh
+sudo pip3 install thefuck
 
 
 ## install antigen

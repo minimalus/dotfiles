@@ -19,3 +19,7 @@ antigen theme agnoster
 # Tell Antigen that you're done.
 antigen apply
 
+# for thefuck: Magnificent app which corrects your previous console command
+eval $(thefuck --alias)
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

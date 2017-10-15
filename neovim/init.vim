@@ -17,6 +17,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "dark powered neo-
 Plug 'zchee/deoplete-jedi' "deoplete.nvim source for jedi, python auto completion
 Plug 'zchee/deoplete-clang' "C/C++/Objective-C/Objective-C++ source for deoplete.nvim
 Plug 'flazz/vim-colorschemes' "one stop shop for vim colorschemes.
+Plug 'minimalus/vi-change-color-scheme' "change list of colorschemes.
 " Initialize plugin system
 call plug#end()
 
@@ -47,15 +48,16 @@ set cursorline
 " Theme and Styling 
 syntax on
 colorscheme badwolf 
-"colorscheme molokai 
-"colorscheme 256-grayvim 
-"colorscheme molokai
-"colorscheme neverland-darker
-"colorscheme midnight
-"colorscheme dracula
 set t_Co=256
 let base16colorspace=256  " Access colors present in 256 colorspace
- 
+
+" Set colorschemes for vi-change-color-scheme
+let g:vi_change_color_scheme_list = ['badwolf', 'Benokai', 'molokai', '256-grayvim', 'molokai', 'neverland-darker', 'midnight', 'dracula']
+let g:vi_change_color_scheme_default = 0
+map <F8> :NextColorScheme<CR>
+map <F7> :PrevColorScheme<CR>
+
+
 " Vim-Airline Configuration
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1 

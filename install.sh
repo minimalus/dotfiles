@@ -56,7 +56,7 @@ done
 ###############################
 ## install misc deb packages ##
 ###############################
-PKGS='terminator tree gitg silversearcher-ag synaptic python3-dev python3-pip sl'
+PKGS='terminator tree gitg silversearcher-ag synaptic python3-dev python3-pip thefuck'
 for pkg in $PKGS; do
   if ! isInstalled $pkg; then
     sudo apt-get install -y $pkg
@@ -67,7 +67,7 @@ done
 ###############################
 ## install misc pip packages ##
 ###############################
-PKGS='thefuck'
+PKGS=''
 for pkg in $PKGS; do
   if ! isInstalledPy $pkg; then
     sudo pip3 install $pkg

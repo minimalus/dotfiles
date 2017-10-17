@@ -11,10 +11,10 @@ lnif() {
   fi
   if [ -e $2 ] ; then
     while true; do
-      read -p "File $2 exists, do you wish to replace it?" yn
+      read -p "File $2 exists, do you wish to replace it? [y/n]" yn
       case $yn in
         [Yy]* ) rm $2;  break;;
-        [Nn]* ) printf "${RED}Skipped\n";return;;
+        [Nn]* ) printf "${RED}Skipped${NORMAL}\n";return;;
         * ) echo "Please answer yes or no.";;
       esac
     done

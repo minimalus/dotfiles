@@ -1,4 +1,4 @@
-isInstalled() {
+isInstalledDeb() {
 dpkg-query -W $1 > /dev/null 2>&1
 if [ $? -eq 0 ]; then
   echo $1 already installed: `dpkg-query -W $1`
@@ -19,7 +19,7 @@ return 1
 ##################
 ## install nvim ##
 ##################
-if ! isInstalled neovim; then
+if ! isInstalledDeb neovim; then
   sudo apt-get install -y software-properties-common
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt-get update
@@ -48,7 +48,7 @@ fi
 ###################################
 PKGS="zsh zsh-antigen tmux"
 for pkg in $PKGS; do
-  if ! isInstalled $pkg; then
+  if ! isInstalledDeb $pkg; then
     sudo apt-get install -y $pkg
   fi
 done
@@ -56,9 +56,9 @@ done
 ###############################
 ## install misc deb packages ##
 ###############################
-PKGS='terminator tree gitg silversearcher-ag synaptic python3-dev python3-pip thefuck'
+PKGS='terminator tree gitg silversearcher-ag synaptic python-dev python3-dev python3-pip thefuck tig htop cmake build-essential'
 for pkg in $PKGS; do
-  if ! isInstalled $pkg; then
+  if ! isInstalledDeb $pkg; then
     sudo apt-get install -y $pkg
   fi
 done

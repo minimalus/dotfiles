@@ -9,6 +9,7 @@ antigen bundle heroku
 antigen bundle pip
 antigen bundle lein
 antigen bundle command-not-found
+antigen bundle z # jump to "frecently" used folders / files
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting

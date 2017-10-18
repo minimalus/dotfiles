@@ -79,6 +79,9 @@ for pkg in $PKGS; do
   fi
 done
 
+# set zsh as default shell
+chsh --shell /usr/bin/zsh
+
 ###############################
 ## install misc deb packages ##
 ###############################

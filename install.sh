@@ -110,7 +110,7 @@ read -p "Do you want to map caps lock to ctrl [y/n] " yn
 while true; do
   case $yn in
     [Yy]* ) mapCapsToCtrl;  break;;
-    [Nn]* ) printf "Skipped\n";return;;
+    [Nn]* ) printf "Skipped\n";break;;
     * ) echo "Please answer yes or no.";;
   esac
 done

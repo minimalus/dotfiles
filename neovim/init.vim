@@ -4,10 +4,11 @@ set encoding=utf8
 "": Start vim-plug setup
 " Specify a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'vim-syntastic/syntastic' " syntax checking
+"Plug 'vim-syntastic/syntastic' " syntax checking
 Plug 'junegunn/fzf' "interactive Unix filter for command-line
 Plug 'junegunn/fzf.vim' "Things you can do with fzf and Vim
 Plug 'scrooloose/nerdtree' "file system explorer for the Vim editor
+Plug 'Xuyuanp/nerdtree-git-plugin' "NERDTree showing git status flags
 Plug 'benmills/vimux' "make interacting with tmux from vim effortless
 "Plug 'junegunn/vim-easy-align'
 Plug 'SirVer/ultisnips' "ultimate solution for snippets in Vim
@@ -18,7 +19,6 @@ Plug 'minimalus/vi-change-color-scheme' "change list of colorschemes.
 
 " Initialize plugin system
 call plug#end()
-
 
 """""""""""""""""""""""""""""""""""""
 " Configuration Section
@@ -45,9 +45,8 @@ set cursorline
 
 " Theme and Styling 
 syntax on
-colorscheme badwolf 
-set t_Co=256
-let base16colorspace=256  " Access colors present in 256 colorspace
+set t_Co=256 " enable 256 colors in vim
+let base16colorspace=256  " Base16 terminal theme '256' variation
 
 " Set colorschemes for vi-change-color-scheme
 let g:vi_change_color_scheme_list = ['default', 'badwolf', 'Benokai', 'molokai', '256-grayvim', 'molokai', 'neverland-darker', 'midnight', 'dracula']
@@ -63,5 +62,17 @@ let g:airline_theme='hybrid'
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1 
 
+" Vim YCM Configuration
+let g:ycm_show_diagnostics_ui = 1
 
+" Vim Syntastic Configuration
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_cpp_checkers = ['clang_check']
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 

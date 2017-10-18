@@ -58,6 +58,9 @@ if ! isInstalledDeb neovim; then
   sudo update-alternatives --config editor
 fi
 
+# change default terminal-emulator
+sudo update-alternatives --config x-terminal-emulator
+
 ## install vim-plug ##
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

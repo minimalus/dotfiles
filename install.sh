@@ -16,6 +16,15 @@ fi
 return 1
 }
 
+mapCapsToCtrl() {
+  if ! grep -q ctrl:nocaps ~/.zshrc; then
+    sed -i -e "\$a ## map caps to ctrl\nsetxkbmap -layout us -option ctrl:nocaps" ~/.zshrc
+  fi
+  if ! grep -q ctrl:nocaps ~/.bashrc; then
+    sed -i -e "\$a ## map caps to ctrl\nsetxkbmap -layout us -option ctrl:nocaps" ~/.bashrc
+  fi
+}
+
 ##################
 ## install nvim ##
 ##################
@@ -72,4 +81,16 @@ for pkg in $PKGS; do
   if ! isInstalledPy $pkg; then
     sudo pip3 install $pkg
   fi
+done
+
+###########################
+## map caps lock to ctrl ##
+###########################
+read -p "Do you want to map caps lock to ctrl [y/n] " yn
+while true; do
+  case $yn in
+    [Yy]* ) mapCapsToCtrl;  break;;
+    [Nn]* ) printf "Skipped\n";return;;
+    * ) echo "Please answer yes or no.";;
+  esac
 done

@@ -106,6 +106,8 @@ done
 ###########################
 ## map caps lock to ctrl ##
 ###########################
+# new to load zsh ones, so we can add this line to the runconfig
+zsh
 read -p "Do you want to map caps lock to ctrl [y/n] " yn
 while true; do
   case $yn in

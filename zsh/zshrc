@@ -20,6 +20,9 @@ antigen theme agnoster
 # Tell Antigen that you're done.
 antigen apply
 
+# Map caps lock to ctrl
+setxkbmap -layout us -option ctrl:nocaps                                                                                                  
+
 # for thefuck: Magnificent app which corrects your previous console command
 eval $(thefuck --alias)
 

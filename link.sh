@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
@@ -13,12 +13,9 @@ lnif() {
   # old config exists already
   if [ -e $2 ] ; then
     # config is a symbolic link
-    if [ -L $2 ] ; then
-      target=$(readlink -f $1)
-      if [ "$target" = "$1" ]; then 
-        printf "${GREEN}Link exists already${NORMAL}\n"
-        return
-      fi
+    if [[  -L $2 && "$(readlink -f $1)" && "$1" ]] ; then
+      printf "${GREEN}Link exists already${NORMAL}\n"
+      return
     fi
     # else ask if we should remove old file or link
     while true; do

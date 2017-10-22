@@ -40,5 +40,5 @@ printf "Setting up zsh\n"
 lnif $dotfiles/zsh/zshrc $HOME/.zshrc
 # tmux
 printf "Setting up tmux\n"
-lnif $dotfiles/tmux/tmux.conf $HOME/.tmux.config
+lnif $dotfiles/tmux/tmux.conf $HOME/.tmux.conf
  

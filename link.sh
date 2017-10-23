@@ -18,14 +18,15 @@ lnif() {
 
   # need to check if we need to create a backup
   if [ -e $2  ] ; then
+    echo Config file exists
+    echo Config file: $2
     if [ ! -L $2 ] ; then # it is not a link, create backup
-      mv $2 $2_backup
+      cp $2 $2_backup
       printf "${RED}Old config $2 backuped to $2_backup${NORMAL}\n"
-    else # is a link, no backup just remove
-      printf "${RED}Removed old link $2 ${NORMAL}\n"
-      rm $2;
     fi
   fi
+  # now we remove the old config or link
+  rm -f $2
   # old config removed or no previous config found
   ln -s $1 $2
   printf "${GREEN}Done${NORMAL}\n"
@@ -34,6 +35,7 @@ lnif() {
 ## create symbolic links
 # vim
 printf "Setting up neovim\n"
+mkdir -p $HOME/.config/nvim/
 lnif $dotfiles/neovim/init.vim $HOME/.config/nvim/init.vim
 # zsh
 printf "Setting up zsh\n"

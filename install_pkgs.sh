@@ -21,7 +21,7 @@ return 1
 installPipIf() {
 for pkg in $@; do
   if ! isInstalledPip $pkg; then
-    sudo pip3 install $pkg
+    pip install --user $pkg
   fi
 done
 return 0
@@ -58,8 +58,8 @@ if ! isInstalledDeb neovim; then
   sudo apt-get install -y software-properties-common
   sudo add-apt-repository ppa:neovim-ppa/stable -y
   sudo apt-get update
-  installDebIf neovim clang # get python support for neovim
-  installPipIf neovim 
+  installDebIf neovim clang python-dev python-pip python3-dev python3-pip# get python support for neovim
+  installPipIf neovim
 fi
 
 ## install vim-plug ##

@@ -5,5 +5,5 @@ dotfiles for vim zsh tmux
 ```
 git clone https://github.com/minimalus/dotfiles.git
 cd dotfiles
-sudo ./install.sh
+./install.sh
 ```

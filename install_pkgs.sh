@@ -50,6 +50,30 @@ installFonts() {
   # clean-up a bit
   rm -rf /tmp/fonts
 }
+#################
+## setup pyenv ##
+#################
+if [ ! -x "$(command -v pyenv)" ]; then
+    curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+fi
+PY2_VER=2.7.11
+PY2_NAME='py2'
+PY3_VER=3.4.4
+PY3_NAME='py3'
+if [ -z "$(pyenv versions | grep $PY2_NAME)" ]; then
+    pyenv install $PY2_VER
+    pyenv virtualenv $PY2_VER $PY2_NAME
+else
+    echo pyenv for $PY2_NAME already installed
+fi
+if [ -z "$(pyenv versions | grep $PY3_NAME)" ]; then
+    pyenv install $PY3_VER
+    pyenv virtualenv $PY3_VER $PY3_NAME
+else
+    echo pyenv for $PY3_NAME already installed
+fi
+# for now switch to system pyenv
+pyenv deactivate 2>/dev/null
 
 ##################
 ## install nvim ##
@@ -59,6 +83,12 @@ if ! isInstalledDeb neovim; then
   sudo add-apt-repository ppa:neovim-ppa/stable -y
   sudo apt-get update
   installDebIf neovim clang python-dev python-pip python3-dev python3-pip# get python support for neovim
+
+  # install neovim python binding for py2 and py3
+  pyenv activate py2
+  installPipIf neovim
+
+  pyenv activate py3
   installPipIf neovim
 fi
 

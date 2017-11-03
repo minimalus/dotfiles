@@ -7,10 +7,10 @@ if [[ ! -f zsh/zshrc || ! -f tmux/tmux.conf || ! -f neovim/init.vim ]] ; then
 fi
 
 # install req. packages
-sudo ./install_pkgs.sh
+./install_pkgs.sh
 
 # create links to configs
 ./link.sh
 
 # set default terminal, editor and install zsh and vim plugins
-sudo ./post_install.sh
+./post_install.sh

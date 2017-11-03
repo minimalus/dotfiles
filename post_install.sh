@@ -6,7 +6,7 @@ sudo update-alternatives --config x-terminal-emulator
 # set zsh as default shell                                                                                                                                                              
 sudo chsh --shell /usr/bin/zsh
 # run zsh to install packages
-reset -Q 
+exec "$SHELL"
 
 ## set neo vim to be the default editor
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60                                                                                                                        

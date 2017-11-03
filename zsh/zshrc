@@ -26,4 +26,12 @@ setxkbmap -layout us -option ctrl:nocaps
 # for thefuck: Magnificent app which corrects your previous console command
 eval $(thefuck --alias)
 
+# setup fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# setup pyenv automatically by adding
+export PATH="/home/q392451/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+

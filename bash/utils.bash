@@ -1,16 +1,59 @@
 #! /bin/bash
+# desired python versions
+PY2_VER=2.7.11
+PY2_NAME='py2'
+PY3_VER=3.4.4
+PY3_NAME='py3'
+
+installDebIf() {
+for pkg in $@; do
+  if ! isInstalledDeb $pkg; then
+    sudo apt-get install -y $pkg
+  fi
+done
+return 0
+}
+
+isInstalledDeb() {
+dpkg-query -W $1 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  echo $1 already installed: `dpkg-query -W $1`
+  return 0
+fi
+return 1
+}
+
+installPipIf() {
+for pkg in $@; do
+  if ! isInstalledPip $pkg; then
+    pip install --user $pkg
+  fi
+done
+return 0
+}
+
+isInstalledPip() {
+pip show $1 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  echo $1 already installed: `pip3 show $1 | grep ^Version`
+  return 0
+fi
+return 1
+}
+
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 
-dotfiles=`pwd`
+SCRIPT=$(readlink -f $0)
+DOTFILES="$(dirname $SCRIPT)/.."
 
 lnif() {
   # does requested config exist
   if [ ! -e $1 ] ; then
     printf "${RED}Failed; (Config $1 not found)${NORMAL}\n"; return
   fi
-  
+
   # does the correct link already exist
   if [[ -e $2 && -L $2 && "$(readlink -f $2)" == "$1" ]] ; then  # config exists, it is a link and is equal to requested link
       printf "${GREEN}Link exists already${NORMAL}\n"; return
@@ -31,16 +74,3 @@ lnif() {
   ln -s $1 $2
   printf "${GREEN}Done${NORMAL}\n"
 }
-
-## create symbolic links
-# vim
-printf "Setting up neovim\n"
-mkdir -p $HOME/.config/nvim/
-lnif $dotfiles/neovim/init.vim $HOME/.config/nvim/init.vim
-# zsh
-printf "Setting up zsh\n"
-lnif $dotfiles/zsh/zshrc $HOME/.zshrc
-# tmux
-printf "Setting up tmux\n"
-lnif $dotfiles/tmux/tmux.conf $HOME/.tmux.conf
- 

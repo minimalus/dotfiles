@@ -54,7 +54,7 @@ DOTFILES="$(dirname $SCRIPT)/.."
 
 lnif() {
   if [ -n "$VERBOSE" ]; then
-    echo "Setting up link for $1"
+    printf "Setting up link for $1 -> "
   fi
   # does requested config exist
   if [ ! -e $1 ] ; then
@@ -73,7 +73,7 @@ lnif() {
   if [ -e $2  ] ; then
     if [ ! -L $2 ] ; then # it is not a link, create backup
       cp $2 $2_backup
-      printf "${RED}Old config $2 backuped to $2_backup${NORMAL}\n"
+      printf "${RED}Old config $2 backuped to $2_backup${NORMAL} -> "
     fi
   fi
   # now we remove the old config or link

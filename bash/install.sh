@@ -2,11 +2,40 @@
 set -o errexit # exit on first non-true return value
 DIR="$(dirname "$0")"
 source $DIR/bash/utils.bash
+
+usage="$(basename "$0") [-h|--help] [-v|--verbose] -- script to install zsh tmux neovim and to create links to their configs in this repo
+
+where:
+    -h  show this help text
+    -v  increase verbosity\n"
+
+
+# get arguments
+while [[ $# -gt 0 ]]
+do
+key="$1"
+case $key in
+    -v|--verbose)
+    VERBOSE=1
+    shift
+    ;;
+    -h|--help)
+    printf "$usage"
+    exit 0
+    ;;
+    *)    # unknown option
+    echo "Unknown Option $2"
+    exit 1
+    ;;
+esac
+done
+
 # check if script gets executed in dotfiles directory
 if [[ ! -f zsh/zshrc || ! -f tmux/tmux.conf || ! -f neovim/init.vim ]] ; then
   echo "Could not find all required configs. Maybe you did not call install.sh from the dotfile directory?"
   exit 1
 fi
+
 
 # install eveything
 #result=$(getUserInputYN "Install everything (zsh neovim pyenv tmux misc) [yn]?")

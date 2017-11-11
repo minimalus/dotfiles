@@ -8,7 +8,13 @@ if ! isInstalledDeb neovim; then
   sudo apt-get install -y software-properties-common
   sudo add-apt-repository ppa:neovim-ppa/stable -y
   sudo apt-get update
-  installDebIf neovim clang python-dev python-pip python3-dev python3-pip# get python support for neovim
+  installDebIf neovim clang python-dev python-pip python3-dev python3-pip # get python support for neovim
+
+  if [ -f $HOME/.pyenv/bin/pyenv ]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+  fi
 
   # install neovim python binding for py2 and py3 if pyenv is setup
   if [ -z "$(pyenv versions | grep $PY2_NAME)" ]; then
@@ -29,12 +35,11 @@ fi
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-else
+elif [ -n "$VERBOSE" ]; then
   echo vim-plug already installed
 fi
 
 # create link to init.vim
-printf "Setting up neovim\n"
 mkdir -p $HOME/.config/nvim/
 lnif $DOTFILES/neovim/init.vim $HOME/.config/nvim/init.vim
 

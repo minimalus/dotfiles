@@ -10,10 +10,8 @@ installDebIf $PKGS
 # set zsh as default shell
 sudo chsh --shell /usr/bin/zsh
 
-# zsh
-printf "Setting up zsh\n"
-echo $DOTFILES/zsh/zshrc
+# link zsh.rc
 lnif $DOTFILES/zsh/zshrc $HOME/.zshrc
 
 # run zsh to install packages
-exec "$SHELL"
+zsh $HOME/.zshrc

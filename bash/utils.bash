@@ -15,9 +15,11 @@ return 0
 }
 
 isInstalledDeb() {
-dpkg-query -W $1 > /dev/null 2>&1
+dpkg -s $1 > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-  echo $1 already installed: `dpkg-query -W $1`
+  if [ -n "$VERBOSE" ]; then
+    echo $1 already installed: `dpkg-query -W $1`
+  fi
   return 0
 fi
 return 1
@@ -35,7 +37,9 @@ return 0
 isInstalledPip() {
 pip show $1 > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-  echo $1 already installed: `pip3 show $1 | grep ^Version`
+  if [ -n "$VERBOSE" ]; then
+    echo $1 already installed: `pip3 show $1 | grep ^Version`
+  fi
   return 0
 fi
 return 1
@@ -49,6 +53,9 @@ SCRIPT=$(readlink -f $0)
 DOTFILES="$(dirname $SCRIPT)/.."
 
 lnif() {
+  if [ -n "$VERBOSE" ]; then
+    echo "Setting up link for $1"
+  fi
   # does requested config exist
   if [ ! -e $1 ] ; then
     printf "${RED}Failed; (Config $1 not found)${NORMAL}\n"; return
@@ -56,13 +63,14 @@ lnif() {
 
   # does the correct link already exist
   if [[ -e $2 && -L $2 && "$(readlink -f $2)" == "$1" ]] ; then  # config exists, it is a link and is equal to requested link
-      printf "${GREEN}Link exists already${NORMAL}\n"; return
+    if [ -n "$VERBOSE" ]; then
+      printf "${GREEN}Link exists already${NORMAL}\n"
+    fi
+    return
   fi
 
   # need to check if we need to create a backup
   if [ -e $2  ] ; then
-    echo Config file exists
-    echo Config file: $2
     if [ ! -L $2 ] ; then # it is not a link, create backup
       cp $2 $2_backup
       printf "${RED}Old config $2 backuped to $2_backup${NORMAL}\n"
@@ -72,7 +80,9 @@ lnif() {
   rm -f $2
   # old config removed or no previous config found
   ln -s $1 $2
-  printf "${GREEN}Done${NORMAL}\n"
+  if [ -n "$VERBOSE" ]; then
+    printf "${GREEN}Done${NORMAL}\n"
+  fi
 }
 
 getUserInputYN() { #$1 question

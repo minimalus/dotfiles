@@ -5,6 +5,7 @@ source $DIR/utils.bash
 ## install nvim ##
 ##################
 if ! isInstalledDeb neovim; then
+  sudo add-apt-repository universe > /dev/null # make sure universe is enabled
   sudo apt-get install -y software-properties-common
   sudo add-apt-repository ppa:neovim-ppa/stable -y
   sudo apt-get update

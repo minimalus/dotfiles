@@ -74,3 +74,14 @@ lnif() {
   ln -s $1 $2
   printf "${GREEN}Done${NORMAL}\n"
 }
+
+getUserInputYN() { #$1 question
+  while true; do
+    read -p "$1" answer
+    case ${answer:0:1} in
+      [Yy]* ) true;return;;
+      [Nn]* ) false;return;;
+      * ) echo "Please answer yes or no.";;
+    esac
+  done
+}

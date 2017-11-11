@@ -6,7 +6,7 @@ source $DIR/utils.bash
 #################
 sudo add-apt-repository universe > /dev/null # make sure universe is enabled
 # requirements from https://github.com/pyenv/pyenv/wiki/Common-build-problems
-installDebIf make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm-4.0-dev libncurses5-dev libncursesw5-dev xz-utils tk-dev
+installDebIf make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
 
 if [ ! -x "$(command -v pyenv)" ]; then
     curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash

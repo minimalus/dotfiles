@@ -8,7 +8,7 @@ PKGS="zsh zsh-antigen fonts-powerline"
 installDebIf $PKGS
 
 # set zsh as default shell
-sudo chsh --shell /usr/bin/zsh
+chsh --shell /usr/bin/zsh
 
 # link zsh.rc
 lnif $DOTFILES/zsh/zshrc $HOME/.zshrc

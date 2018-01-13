@@ -21,7 +21,8 @@ sudo mkdir -p /lib/terminfo/x
 #sudo ln -s \
 #/usr/local/share/terminfo/x/xterm-termite \
 #/lib/terminfo/x/xterm-termite
-lnif /usr/local/share/terminfo/x/xterm-termite /lib/terminfo/x/xterm-termite
+sudo -E bash -c "lnif /usr/local/share/terminfo/x/xterm-termite /lib/terminfo/x/xterm-termite"
+sulnif /usr/local/share/terminfo/x/xterm-termite /lib/terminfo/x/xterm-termite
 
 # create link to termite config
 mkdir -p $HOME/.config/termite/

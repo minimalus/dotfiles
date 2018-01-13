@@ -85,6 +85,39 @@ lnif() {
   fi
 }
 
+sulnif() {
+  if [ -n "$VERBOSE" ]; then
+    printf "Setting up link for $1 -> "
+  fi
+  # does requested config exist
+  if [ ! -e $1 ] ; then
+    printf "${RED}Failed; (Config $1 not found)${NORMAL}\n"; return
+  fi
+
+  # does the correct link already exist
+  if [[ -e $2 && -L $2 && "$(readlink -f $2)" == "$1" ]] ; then  # config exists, it is a link and is equal to requested link
+    if [ -n "$VERBOSE" ]; then
+      printf "${GREEN}Link exists already${NORMAL}\n"
+    fi
+    return
+  fi
+
+  # need to check if we need to create a backup
+  if [ -e $2  ] ; then
+    if [ ! -L $2 ] ; then # it is not a link, create backup
+      sudo cp $2 $2_backup
+      printf "${RED}Old config $2 backuped to $2_backup${NORMAL} -> "
+    fi
+  fi
+  # now we remove the old config or link
+  sudo rm -f $2
+  # old config removed or no previous config found
+  sudo ln -s $1 $2
+  if [ -n "$VERBOSE" ]; then
+    printf "${GREEN}Done${NORMAL}\n"
+  fi
+}
+
 getUserInputYN() { #$1 question
   while true; do
     read -p "$1" answer

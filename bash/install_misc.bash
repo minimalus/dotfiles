@@ -5,7 +5,7 @@ source $DIR/utils.bash
 ## install misc deb packages ##
 ###############################
 sudo add-apt-repository universe > /dev/null # make sure universe is enabled
-PKGS='terminator tree gitg silversearcher-ag synaptic python-dev python3-dev python3-pip thefuck tig htop cmake build-essential vifm'
+PKGS='terminator tree gitg silversearcher-ag synaptic python-dev python3-dev python3-pip thefuck tig htop cmake build-essential vifm youtube-viewer ncmpcpp'
 installDebIf $PKGS
 
 ###############################

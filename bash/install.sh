@@ -1,5 +1,5 @@
 #! /bin/bash
-set -o errexit # exit on first non-true return value
+#set -o errexit # exit on first non-true return value
 DIR="$(dirname "$0")"
 source $DIR/bash/utils.bash
 
@@ -31,15 +31,14 @@ esac
 done
 
 # check if script gets executed in dotfiles directory
-if [[ ! -f zsh/zshrc || ! -f tmux/tmux.conf || ! -f neovim/init.vim ]] ; then
+if [[ ! -f zsh/zshrc || ! -f tmux/tmux.conf || ! -f neovim/init.vim || ! -f termite/config ]] ; then
   echo "Could not find all required configs. Maybe you did not call install.sh from the dotfile directory?"
   exit 1
 fi
 
-
 # install eveything
 #result=$(getUserInputYN "Install everything (zsh neovim pyenv tmux misc) [yn]?")
-getUserInputYN "Install everything (zsh neovim pyenv tmux misc) [yn]?"
+getUserInputYN "Install everything (zsh neovim pyenv tmux termite misc) [yn]?"
 if [ $? -eq 0 ] ; then
   echo "### Installing pyenv ###"
   ./bash/install_py_env.bash
@@ -66,6 +65,11 @@ else
   getUserInputYN "install tmux [yn]?"
   if [ $? -eq 0 ] ; then
     ./bash/install_tmux.bash
+  fi
+  # install termite
+  getUserInputYN "install termite [yn]?"
+  if [ $? -eq 0 ] ; then
+    ./bash/install_termite.bash
   fi
   # install misc
   getUserInputYN "install misc packages [yn]?"

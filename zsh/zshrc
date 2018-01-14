@@ -34,4 +34,22 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+# folder of all of your autocomplete functions
+fpath=($HOME/.zsh-completions $fpath)
 
+# enable autocomplete function
+autoload -U compinit
+compinit
+
+# enable warning message of zsh completions
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
+
+# bmw
+source /opt/ros/kinetic/setup.zsh
+source ~/autonomous_driving/devel_dev_debug/setup.zsh
+#source ~/autonomous_driving_had/devel_dev_debug/setup.zsh
+
+# fix encoding errors terminator
+export VTE_VERSION="100"

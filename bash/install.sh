@@ -38,19 +38,28 @@ fi
 
 # install eveything
 #result=$(getUserInputYN "Install everything (zsh neovim pyenv tmux misc) [yn]?")
-getUserInputYN "Install everything (zsh neovim pyenv tmux termite misc) [yn]?"
+getUserInputYN "Install everything (fonts zsh neovim pyenv tmux termite misc) [yn]?"
 if [ $? -eq 0 ] ; then
+  echo "### Installing fonts ###"
+  ./bash/install_fonts.bash
   echo "### Installing pyenv ###"
   ./bash/install_py_env.bash
   echo "### Installing neovim ###"
   ./bash/install_nvim.bash
   echo "### Installing tmux ###"
   ./bash/install_tmux.bash
+  echo "### Installing termite ###"
+  ./bash/install_termite.bash
   echo "### Installing misc ###"
   ./bash/install_misc.bash
   echo "### Installing zsh ###"
   ./bash/install_zsh.bash
 else
+  # install fonts
+  getUserInputYN "install fonts [yn]?"
+  if [ $? -eq 0 ] ; then
+    ./bash/install_fonts.bash
+  fi
   # install pyenv
   getUserInputYN "create Python virtual environments [yn]?"
   if [ $? -eq 0 ] ; then

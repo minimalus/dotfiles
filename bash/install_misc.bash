@@ -11,7 +11,7 @@ installDebIf $PKGS
 ###############################
 ## install misc pip packages ##
 ###############################
-PKGS=''
+PKGS='flake8'
 installPipIf $PKGS
 
 ## change default terminal-emulator

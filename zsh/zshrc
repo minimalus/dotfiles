@@ -1,55 +1,195 @@
-source /usr/share/zsh-antigen/antigen.zsh
+# Enable autocompletions
+autoload -Uz compinit
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-antigen bundle heroku
-antigen bundle pip
-antigen bundle lein
-antigen bundle command-not-found
-antigen bundle z # jump to "frecently" used folders / files
+zmodload -i zsh/complist
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
+# Save history so we get auto suggestions
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
 
-# Load the theme.
-antigen theme agnoster
-
-# Tell Antigen that you're done.
-antigen apply
-
-# Map caps lock to ctrl
-setxkbmap -layout us -option ctrl:nocaps                                                                                                  
-
-# for thefuck: Magnificent app which corrects your previous console command
-eval $(thefuck --alias)
-
-# setup fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# setup pyenv automatically by adding
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+### Options
+## changing directories
+setopt auto_cd autopushd # activate auto_cd, cd into name if directory
+setopt autopushd # always pushd, see list with dirs -v
+setopt pushdignoredups # do not add duplicates
+setopt pushdminus # enable cd -
+## shell complition
+# activate correction
+setopt correct_all
+setopt auto_list # list choice on an ambigious completion
+setopt auto_menu # automatically use menu completion 
+setopt always_to_end # move cursor to end if word has one match
+setopt interactive_comments # allow comments in interactive shells
+setopt completeinword # complete inside words
+setopt nolistambiguous # only list matches if ambiguous
+setopt nolistbeep # don't beep on ambiguous listings
+## history
+setopt inc_append_history # save history entries as soon as they are entered
+setopt share_history # share history between different instances
+setopt hist_ignore_all_dups # remove older duplicate entries from history
+setopt hist_reduce_blanks # remove superfluous blanks from history items
+setopt hist_ignore_space      # ignore commands that start with space
 
 # folder of all of your autocomplete functions
 fpath=($HOME/.zsh-completions $fpath)
 
-# enable autocomplete function
-autoload -U compinit
-compinit
-
 # enable warning message of zsh completions
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:messages' format '%d'
-zstyle ':completion:*:warnings' format 'No matches for: %d'
+#zstyle ':completion:*' menu select # select completion with arrow select
+#zstyle ':completion:*' group-bame '' # group results by category
+#zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
+#zstyle ':completion:*' verbose yes 
+#zstyle ':completion:*:messages' format '%d'
+#zstyle ':completion:*:warnings' format 'No matches for: %d'
 
-# bmw
-source /opt/ros/kinetic/setup.zsh
-source ~/autonomous_driving/devel_dev_debug/setup.zsh
-#source ~/autonomous_driving_had/devel_dev_debug/setup.zsh
+## from oh-my-zsh for fuzzy auto completion
+bindkey -M menuselect '^o' accept-and-infer-next-history
+zstyle ':completion:*:*:*:*:*' menu select
+
+# case insensitive (all), partial-word and substring completion
+if [[ "$CASE_SENSITIVE" = true ]]; then
+  zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
+else
+  if [[ "$HYPHEN_INSENSITIVE" = true ]]; then
+    zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+  else
+    zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+  fi
+fi
+unset CASE_SENSITIVE HYPHEN_INSENSITIVE
+
+# Complete . and .. special directories
+zstyle ':completion:*' special-dirs true
+
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+if [[ "$OSTYPE" = solaris* ]]; then
+  zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm"
+else
+  zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+fi
+
+# disable named-directories autocompletion
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
+# Use caching so that commands like apt and dpkg complete are useable
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
+
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
+        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+        usbmux uucp vcsa wwwrun xfs '_*'
+
+# ... unless we really want to.
+zstyle '*' single-ignored show
+
+if [[ $COMPLETION_WAITING_DOTS = true ]]; then
+  expand-or-complete-with-dots() {
+    # toggle line-wrapping off and back on again
+    [[ -n "$terminfo[rmam]" && -n "$terminfo[smam]" ]] && echoti rmam
+    print -Pn "%{%F{red}......%f%}"
+    [[ -n "$terminfo[rmam]" && -n "$terminfo[smam]" ]] && echoti smam
+
+    zle expand-or-complete
+    zle redisplay
+  }
+  zle -N expand-or-complete-with-dots
+  bindkey "^I" expand-or-complete-with-dots
+fi
+
+## from oh-my-zsh search history by arrow keys
+# start typing + [Up-Arrow] - fuzzy find history forward
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  autoload -U up-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+# start typing + [Down-Arrow] - fuzzy find history backward
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  autoload -U down-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
+
+# load antibody plugins
+source ~/.zsh_plugins.sh
 
 # fix encoding errors terminator
-export VTE_VERSION="100"
+PACESHIP_PROMPT_ORDER=(
+  user          # Username section
+  dir           # Current directory section
+  host          # Hostname section
+  git           # Git section (git_branch + git_status)
+  hg            # Mercurial section (hg_branch  + hg_status)
+  exec_time     # Execution time
+  line_sep      # Line break
+  vi_mode       # Vi-mode indicator
+  jobs          # Background jobs indicator
+  exit_code     # Exit code section
+  char          # Prompt character
+)
+
+SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_CHAR_SYMBOL="❯"
+SPACESHIP_CHAR_SUFFIX=" "
+
+# setup fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Map caps lock to ctrl
+setxkbmap -layout us -option ctrl:nocaps                                                                                                  
+
+# Switch on vi keybindings ToDo causes problems with fzf and prompt
+#bindkey -v
+
+# for thefuck: Magnificent app which corrects your previous console command
+eval $(thefuck --alias)
+
+# setup pyenv automatically by adding
+if [ -f $HOME/.pyenv/bin/pyenv ]; then
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+
+# alias to update antibody plugins for static loading
+alias antibody_update='antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh && antibody update'
+
+# control directory
+alias d='dirs -v | head -10'
+alias -- -='cd -'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
+# List directory contents
+alias lsa='ls -lah'
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'

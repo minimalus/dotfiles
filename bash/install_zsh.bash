@@ -4,10 +4,11 @@ source $DIR/utils.bash
 ##############################
 ## install zsh zsh-antigen  ##
 ##############################
-PKGS="zsh zsh-antigen fonts-powerline"
+PKGS="zsh"
 installDebIf $PKGS
 
 # set zsh as default shell
+echo "Need sudo pwd for chsh"
 chsh --shell /usr/bin/zsh
 
 # link zsh.rc

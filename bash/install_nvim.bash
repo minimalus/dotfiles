@@ -15,23 +15,21 @@ if ! isInstalledDeb neovim; then
     export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
-  fi
-
   # install neovim python binding for py2 and py3 if pyenv is setup
-  if [ -z "$(pyenv versions | grep $PY2_NAME)" ]; then
-    pyenv activate py2
-    installPipIf neovim
-    pyenv deactivate 2>/dev/null
-  fi
-  if [ -z "$(pyenv versions | grep $PY3_NAME)" ]; then
-    pyenv activate py3
-    installPipIf neovim
-    pyenv deactivate 2>/dev/null
+    if [ -z "$(pyenv versions | grep $PY2_NAME)" ]; then
+      pyenv activate py2
+      installPipIf neovim
+      pyenv deactivate 2>/dev/null
+    fi
+    if [ -z "$(pyenv versions | grep $PY3_NAME)" ]; then
+      pyenv activate py3
+      installPipIf neovim
+      pyenv deactivate 2>/dev/null
+    fi
   fi
   # for system python
   installPipIf neovim
 fi
-
 ## install vim-plug ##
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

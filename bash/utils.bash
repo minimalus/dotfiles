@@ -1,8 +1,8 @@
 #! /bin/bash
 # desired python versions
-PY2_VER=2.7.11
+PY2_VER=2.7.15
 PY2_NAME='py2'
-PY3_VER=3.4.4
+PY3_VER=3.7.1
 PY3_NAME='py3'
 
 installDebIf() {

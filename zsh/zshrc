@@ -1,27 +1,16 @@
-# Enable autocompletions
+## Get actual location of zshrc file from dotfiles (of course from stackoverflow)
+DOTFILE_ZSH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+## Enable autocompletions
 autoload -Uz compinit
-
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
   compinit -i
 else
   compinit -C -i
 fi
-
 zmodload -i zsh/complist
 
-# Save history so we get auto suggestions
-HISTFILE=$HOME/.zsh_history
-HISTSIZE=100000
-SAVEHIST=$HISTSIZE
-
 ### Options
-## changing directories
-setopt auto_cd autopushd # activate auto_cd, cd into name if directory
-setopt autopushd # always pushd, see list with dirs -v
-setopt pushdignoredups # do not add duplicates
-setopt pushdminus # enable cd -
-## shell complition
 # activate correction
 setopt correct_all
 setopt auto_list # list choice on an ambigious completion
@@ -31,165 +20,45 @@ setopt interactive_comments # allow comments in interactive shells
 setopt completeinword # complete inside words
 setopt nolistambiguous # only list matches if ambiguous
 setopt nolistbeep # don't beep on ambiguous listings
-## history
-setopt inc_append_history # save history entries as soon as they are entered
-setopt share_history # share history between different instances
-setopt hist_ignore_all_dups # remove older duplicate entries from history
-setopt hist_reduce_blanks # remove superfluous blanks from history items
-setopt hist_ignore_space      # ignore commands that start with space
 
-# folder of all of your autocomplete functions
+## folder of all of own autocomplete functions
 fpath=($HOME/.zsh-completions $fpath)
 
-# enable warning message of zsh completions
-#zstyle ':completion:*' menu select # select completion with arrow select
-#zstyle ':completion:*' group-bame '' # group results by category
-#zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
-#zstyle ':completion:*' verbose yes 
-#zstyle ':completion:*:messages' format '%d'
-#zstyle ':completion:*:warnings' format 'No matches for: %d'
+## enable warning message of zsh completions
+zstyle ':completion:*' verbose yes 
+zstyle ':completion:*:warnings' format 'No matches for: %d'
 
-## from oh-my-zsh for fuzzy auto completion
-bindkey -M menuselect '^o' accept-and-infer-next-history
-zstyle ':completion:*:*:*:*:*' menu select
-
-# case insensitive (all), partial-word and substring completion
-if [[ "$CASE_SENSITIVE" = true ]]; then
-  zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
-else
-  if [[ "$HYPHEN_INSENSITIVE" = true ]]; then
-    zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
-  else
-    zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-  fi
-fi
-unset CASE_SENSITIVE HYPHEN_INSENSITIVE
-
-# Complete . and .. special directories
-zstyle ':completion:*' special-dirs true
-
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-
-if [[ "$OSTYPE" = solaris* ]]; then
-  zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm"
-else
-  zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-fi
-
-# disable named-directories autocompletion
-zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
-
-# Use caching so that commands like apt and dpkg complete are useable
-zstyle ':completion::complete:*' use-cache 1
-zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
-
-# Don't complete uninteresting users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
-        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
-        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
-        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
-        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
-        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
-        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
-        usbmux uucp vcsa wwwrun xfs '_*'
-
-# ... unless we really want to.
-zstyle '*' single-ignored show
-
-if [[ $COMPLETION_WAITING_DOTS = true ]]; then
-  expand-or-complete-with-dots() {
-    # toggle line-wrapping off and back on again
-    [[ -n "$terminfo[rmam]" && -n "$terminfo[smam]" ]] && echoti rmam
-    print -Pn "%{%F{red}......%f%}"
-    [[ -n "$terminfo[rmam]" && -n "$terminfo[smam]" ]] && echoti smam
-
-    zle expand-or-complete
-    zle redisplay
-  }
-  zle -N expand-or-complete-with-dots
-  bindkey "^I" expand-or-complete-with-dots
-fi
-
-## from oh-my-zsh search history by arrow keys
-# start typing + [Up-Arrow] - fuzzy find history forward
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-# start typing + [Down-Arrow] - fuzzy find history backward
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
-
-# load antibody plugins
+## load antibody plugins
 source ~/.zsh_plugins.sh
+## load settings for space ship prompt
+source $DOTFILE_ZSH_DIR/space_ship_prompt.zsh
+## load fuzzy autocomplition, zstyle...
+source $DOTFILE_ZSH_DIR/completion.zsh
+## load directory features, autopushd, autocd, ...
+source $DOTFILE_ZSH_DIR/directory.zsh
+## load history features
+source $DOTFILE_ZSH_DIR/history.zsh
 
-# fix encoding errors terminator
-PACESHIP_PROMPT_ORDER=(
-  user          # Username section
-  dir           # Current directory section
-  host          # Hostname section
-  git           # Git section (git_branch + git_status)
-  hg            # Mercurial section (hg_branch  + hg_status)
-  exec_time     # Execution time
-  line_sep      # Line break
-  vi_mode       # Vi-mode indicator
-  jobs          # Background jobs indicator
-  exit_code     # Exit code section
-  char          # Prompt character
-)
-
-SPACESHIP_PROMPT_ADD_NEWLINE=false
-SPACESHIP_CHAR_SYMBOL="❯"
-SPACESHIP_CHAR_SUFFIX=" "
-
-# setup fuzzy finder
+## setup fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Map caps lock to ctrl
+## Map caps lock to ctrl
 setxkbmap -layout us -option ctrl:nocaps                                                                                                  
 
-# Switch on vi keybindings ToDo causes problems with fzf and prompt
-#bindkey -v
+## Switch on vi keybindings
+KEYTIMEOUT=1 # 10ms for key sequences, default is 0.4s
+bindkey -v
 
-# for thefuck: Magnificent app which corrects your previous console command
+## for thefuck: Magnificent app which corrects your previous console command
 eval $(thefuck --alias)
 
-# setup pyenv automatically by adding
+## setup pyenv if pyenv is installed
 if [ -f $HOME/.pyenv/bin/pyenv ]; then
   export PATH="$HOME/.pyenv/bin:$PATH"
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
-# alias to update antibody plugins for static loading
-alias antibody_update='antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh && antibody update'
+## alias to update antibody plugins for static loading
+alias zsh_plugin_update='antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh && antibody update'
 
-# control directory
-alias d='dirs -v | head -10'
-alias -- -='cd -'
-alias 1='cd -'
-alias 2='cd -2'
-alias 3='cd -3'
-alias 4='cd -4'
-alias 5='cd -5'
-alias 6='cd -6'
-alias 7='cd -7'
-alias 8='cd -8'
-alias 9='cd -9'
-
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
-
-# List directory contents
-alias lsa='ls -lah'
-alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'

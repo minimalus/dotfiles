@@ -9,14 +9,13 @@ where:
     -h  show this help text
     -v  increase verbosity\n"
 
-
 # get arguments
 while [[ $# -gt 0 ]]
 do
 key="$1"
 case $key in
     -v|--verbose)
-    VERBOSE=1
+    export VERBOSE=1
     shift
     ;;
     -h|--help)

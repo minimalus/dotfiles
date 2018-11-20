@@ -1,5 +1,6 @@
 ## Get actual location of zshrc file from dotfiles (of course from stackoverflow)
-DOTFILE_ZSH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+DOTFILE_ZSH_DIR="$(dirname "$(readlink -f "$HOME/.zshrc")")"
+
 ## Enable autocompletions
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)

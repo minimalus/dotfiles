@@ -8,7 +8,11 @@ PY3_NAME='py3'
 installDebIf() {
 for pkg in $@; do
   if ! isInstalledDeb $pkg; then
-    sudo apt-get install -y $pkg
+    if [ -n "$VERBOSE" ]; then
+      sudo apt-get install -y $pkg
+    else
+      sudo apt-get install -y $pkg > /dev/null
+    fi
   fi
 done
 return 0

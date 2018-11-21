@@ -10,9 +10,9 @@ fi
 ##################
 if ! isInstalledDeb neovim; then
   sudo add-apt-repository universe > /dev/null # make sure universe is enabled
-  sudo apt-get install -y software-properties-common
-  sudo add-apt-repository ppa:neovim-ppa/stable -y
-  sudo apt-get update
+  sudo apt-get install -y software-properties-common > /dev/null
+  sudo add-apt-repository ppa:neovim-ppa/stable -y > /dev/null
+  sudo apt-get update > /dev/null
   installDebIf neovim clang python-dev python-pip python3-dev python3-pip # get python support for neovim
 
   if [ -f $HOME/.pyenv/bin/pyenv ]; then

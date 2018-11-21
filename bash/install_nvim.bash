@@ -1,6 +1,10 @@
 #! /bin/bash
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
+if isVerboseSet $@; then
+  VERBOSE=1
+fi
+
 ##################
 ## install nvim ##
 ##################
@@ -35,7 +39,7 @@ if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 elif [ -n "$VERBOSE" ]; then
-  echo vim-plug already installed
+  printf "vim-plug already installed"
 fi
 
 # create link to init.vim
@@ -43,7 +47,7 @@ mkdir -p $HOME/.config/nvim/
 lnif $DOTFILES/neovim/init.vim $HOME/.config/nvim/init.vim
 
 ## set neo vim to be the default editor
-sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60                                                                                                                        
+sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
 sudo update-alternatives --config vi
 sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
 sudo update-alternatives --config vim 
@@ -58,4 +62,3 @@ echo "Running PlugInstall, vim will close when finished" > /tmp/vim_install_note
 vim /tmp/vim_install_note +PlugInstall +qa 
 # delete file
 rm /tmp/vim_install_note
-

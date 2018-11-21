@@ -1,7 +1,8 @@
 #! /bin/bash
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
-################
+redirectStdoutStderrIfNotVerbose $@
+#################
 ## setup pyenv ##
 #################
 sudo add-apt-repository universe > /dev/null # make sure universe is enabled

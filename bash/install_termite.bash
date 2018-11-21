@@ -1,7 +1,8 @@
 #! /bin/bash
-set -e #exit on error
+# set -e #exit on error
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
+redirectStdoutStderrIfNotVerbose $@
 #####################
 ## install termite ##
 #####################

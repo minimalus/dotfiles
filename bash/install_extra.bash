@@ -1,6 +1,7 @@
 #! /bin/bash
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
+redirectStdoutStderrIfNotVerbose $@
 ###############################
 ## install misc deb packages ##
 ###############################

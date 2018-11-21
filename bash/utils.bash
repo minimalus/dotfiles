@@ -128,3 +128,27 @@ getUserInputYN() { #$1 question
     esac
   done
 }
+
+isVerboseSet() {
+  while [[ $# -gt 0 ]]
+  do
+  key="$1"
+  case $key in
+      -v|--verbose)
+      return 0  # found -v
+      ;;
+      *)    # unknown option
+      shift
+      ;;
+  esac
+  done
+  return 1  # no -v found
+}
+
+redirectStdoutStderrIfNotVerbose() {
+  if ! isVerboseSet $@; then
+    exec >/dev/null 2>&1
+  fi
+  VERBOSE=1
+}
+

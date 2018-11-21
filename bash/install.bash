@@ -3,11 +3,70 @@
 DIR="$(dirname "$0")"
 source $DIR/bash/utils.bash
 
+## different installation routines
+installBasic() {
+  echo "### Installing fonts ###"
+  ./bash/install_fonts.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing basic debian packages ###"
+  ./bash/install_basic.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing antibody ###"
+  ./bash/install_antibody.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing fzf ###"
+  ./bash/install_fzf.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing neovim ###"
+  ./bash/install_nvim.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing zsh ###"
+  ./bash/install_zsh.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+}
+
+installFull() {
+  echo "### Installing pyenv ###"
+  ./bash/install_py_env.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing tmux ###"
+  ./bash/install_tmux.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  installBasic $@
+}
+
+installExtra() {
+  echo "### Installing termitex ###"
+  ./bash/install_termite.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing ipython/jupyter ###"
+  ./bash/install_ipython_jupyter.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  echo "### Installing extra ###"
+  ./bash/install_extra.zsh $@
+  printf "${GREEN}done${NORMAL}\n"
+  
+  installFull $@
+}
+
+
+## actual script
 usage="$(basename "$0") [-h|--help] [-v|--verbose] -- script to install zsh tmux neovim and to create links to their configs in this repo
 
 where:
     -h  show this help text
     -v  increase verbosity\n"
+
+PARAMS=$@
 
 # get arguments
 while [[ $# -gt 0 ]]
@@ -36,71 +95,25 @@ if [[ ! -f zsh/zshrc || ! -f tmux/tmux.conf || ! -f neovim/init.vim || ! -f term
 fi
 
 # install eveything
-#result=$(getUserInputYN "Install everything (zsh neovim pyenv tmux misc) [yn]?")
+printf "Three options are given: Basic Full Extra\n"
 getUserInputYN "Basic Installation (fonts basic antibody fzf zsh neovim) [yn]?"
 if [ $? -eq 0 ] ; then
-  echo "### Installing fonts ###"
-  ./bash/install_fonts.bash
-  echo "### Installing basic debian packages ###"
-  ./bash/install_basic.bash
-  echo "### Installing antibody ###"
-  ./bash/install_antibody.bash
-  echo "### Installing fzf ###"
-  ./bash/install_fzf.bash
-  echo "### Installing neovim ###"
-  ./bash/install_nvim.bash
-  echo "### Installing zsh ###"
-  ./bash/install_zsh.bash
+  installBasic $PARAMS
   # Done
   printf "${GREEN}DOTFILES installed sucessfully${NORMAL}\n"
   exit 0
 fi
+
 getUserInputYN "Full Installation (Basic +pyenv tmux) [yn]?"
 if [ $? -eq 0 ] ; then
-  echo "### Installing fonts ###"
-  ./bash/install_fonts.bash
-  echo "### Installing basic debian packages ###"
-  ./bash/install_basic.bash
-  echo "### Installing antibody ###"
-  ./bash/install_antibody.bash
-  echo "### Installing fzf ###"
-  ./bash/install_fzf.bash
-  echo "### Installing pyenv ###"
-  ./bash/install_py_env.bash
-  echo "### Installing tmux ###"
-  ./bash/install_tmux.bash
-  echo "### Installing neovim ###"
-  ./bash/install_nvim.bash
-  echo "### Installing zsh ###"
-  ./bash/install_zsh.bash
+  installFull $PARAMS
   # Done
   printf "${GREEN}DOTFILES installed sucessfully${NORMAL}\n"
   exit 0
 fi
-getUserInputYN "Experimental Installation (Full +termite ipython/jupyter extra) [yn]?"
+getUserInputYN "Extra Installation (Full +termite ipython/jupyter extra) [yn]?"
 if [ $? -eq 0 ] ; then
-  echo "### Installing fonts ###"
-  ./bash/install_fonts.bash
-  echo "### Installing basic debian packages ###"
-  ./bash/install_basic.bash
-  echo "### Installing antibody ###"
-  ./bash/install_antibody.bash
-  echo "### Installing fzf ###"
-  ./bash/install_fzf.bash
-  echo "### Installing pyenv ###"
-  ./bash/install_py_env.bash
-  echo "### Installing tmux ###"
-  ./bash/install_tmux.bash
-  echo "### Installing termitex ###"
-  ./bash/install_termite.bash
-  echo "### Installing ipython/jupyter ###"
-  ./bash/install_ipython_jupyter.bash
-  echo "### Installing neovim ###"
-  ./bash/install_nvim.bash
-  echo "### Installing extra ###"
-  ./bash/install_extra.zsh
-  echo "### Installing zsh ###"
-  ./bash/install_zsh.bash
+  installExtra $PARAMS
   # Done
   printf "${GREEN}DOTFILES installed sucessfully${NORMAL}\n"
   exit 0

@@ -1,6 +1,9 @@
 #! /bin/bash
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
+if isVerboseSet $@; then
+  VERBOSE=1
+fi
 ##############################
 ## install zsh zsh-antigen  ##
 ##############################
@@ -8,7 +11,7 @@ PKGS="zsh"
 installDebIf $PKGS
 
 # set zsh as default shell
-echo "Need sudo pwd for chsh"
+printf "Need sudo pwd for chsh\n"
 chsh --shell /usr/bin/zsh
 
 # link zsh.rc

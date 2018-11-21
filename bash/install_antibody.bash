@@ -1,7 +1,10 @@
 #!/bin/bash
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
-
+redirectStdoutStderrIfNotVerbose $@
+######################
+## install antibody ##
+######################
 # download most recent version and install
 curl -sL https://git.io/antibody | sh -s
 # for static loading, see https://getantibody.github.io/ for more details

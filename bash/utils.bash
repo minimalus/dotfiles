@@ -151,20 +151,11 @@ isVerboseSet() {
 
 redirectStdoutStderrIfNotVerbose() {
   if ! isVerboseSet $@; then
-    # exec >/dev/null 2>&1
-    #exec 3>&1 >> /dev/null # redirect stdout to fd 3 and do not output
-    #exec 4>&2 >> /dev/null # redirect stderr to fd 4 and do not output
     exec &>/dev/null
   fi
-  VERBOSE=1
+  VERBOSE=1  # used by other util functions, e.g. lnif()
 }
 
 restoreStdoutStderr() {
-  #exec 1>&3 2>&4  # redirect stdout to fd 1 and stderr to fd 2
-  #exec >&3- >&4-  # close fd 3 and 4
   exec &>/dev/tty
 }
-
-
-
-

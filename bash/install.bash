@@ -39,14 +39,14 @@ installFull() {
   ./bash/install_tmux.bash $@
   printf "${GREEN}done${NORMAL}\n"
   
+  echo "### Installing termite ###"
+  ./bash/install_termite.bash $@
+  printf "${GREEN}done${NORMAL}\n"
+  
   installBasic $@
 }
 
 installExtra() {
-  echo "### Installing termitex ###"
-  ./bash/install_termite.bash $@
-  printf "${GREEN}done${NORMAL}\n"
-  
   echo "### Installing ipython/jupyter ###"
   ./bash/install_ipython_jupyter.bash $@
   printf "${GREEN}done${NORMAL}\n"
@@ -104,14 +104,14 @@ if [ $? -eq 0 ] ; then
   exit 0
 fi
 
-getUserInputYN "Full Installation (Basic +pyenv tmux) [yn]?"
+getUserInputYN "Full Installation (Basic +pyenv tmux termite) [yn]?"
 if [ $? -eq 0 ] ; then
   installFull $PARAMS
   # Done
   printf "${GREEN}DOTFILES installed sucessfully${NORMAL}\n"
   exit 0
 fi
-getUserInputYN "Extra Installation (Full +termite ipython/jupyter extra) [yn]?"
+getUserInputYN "Extra Installation (Full +ipython/jupyter extra) [yn]?"
 if [ $? -eq 0 ] ; then
   installExtra $PARAMS
   # Done

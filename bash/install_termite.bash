@@ -21,11 +21,16 @@ sudo ldconfig
 sudo mkdir -p /lib/terminfo/x
 sulnif /usr/local/share/terminfo/x/xterm-termite /lib/terminfo/x/xterm-termite
 
-# create link to termite config
-mkdir -p $HOME/.config/termite/
-lnif $DOTFILES/termite/config $HOME/.config/termite/config
-
 # clean up
 rm -rf /tmp/termite /tmp/vte-ng
 cd $OLD
 
+# create link to termite config
+mkdir -p $HOME/.config/termite/
+lnif $DOTFILES/termite/config $HOME/.config/termite/config
+
+# change terminal emulator
+restoreStdoutStderr
+printf "sudo needed to set default x-terminal-emulator"
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/termite 100
+sudo update-alternatives --config x-terminal-emulator

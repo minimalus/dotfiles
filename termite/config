@@ -1,15 +1,14 @@
 [options]
-#allow_bold = true
-#audible_bell = false
-#clickable_url = true
-#dynamic_title = true
-#font = Monospace 9
+allow_bold = true
+audible_bell = false
+clickable_url = true
+dynamic_title = true
 font = Inconsolata-g for Powerline 12
 #font = Inconsolata Bold 12
 #fullscreen = true
 #geometry = 640x480
 #icon_name = terminal
-#mouse_autohide = false
+mouse_autohide = true
 #scroll_on_output = false
 #scroll_on_keystroke = true
 # Length of the scrollback buffer, 0 disabled the scrollback buffer
@@ -44,34 +43,154 @@ scrollback_lines = -1
 # and cursor_foreground falls back to the background color.
 #cursor = #dcdccc
 #cursor_foreground = #dcdccc
-
 #foreground = #dcdccc
 #foreground_bold = #ffffff
 #background = #3f3f3f
-
 # 20% background transparency (requires a compositor)
 #background = rgba(63, 63, 63, 0.8)
-
 # If unset, will reverse foreground and background
-highlight = #2f2f2f
-
+#highlight = #2f2f2f
 # Colors from color0 to color254 can be set
-color0 = #3f3f3f
-color1 = #705050
-color2 = #60b48a
-color3 = #dfaf8f
-color4 = #506070
-color5 = #dc8cc3
-color6 = #8cd0d3
-color7 = #dcdccc
-color8 = #709080
-color9 = #dca3a3
-color10 = #c3bf9f
-color11 = #f0dfaf
-color12 = #94bff3
-color13 = #ec93d3
-color14 = #93e0e3
+#color0 = #3f3f3f
+#color1 = #705050
+#color2 = #60b48a
+#color3 = #dfaf8f
+#color4 = #506070
+#color5 = #dc8cc3
+#color6 = #8cd0d3
+#color7 = #dcdccc
+#color8 = #709080
+#color9 = #dca3a3
+#color10 = #c3bf9f
+#color11 = #f0dfaf
+#color12 = #94bff3
+#color13 = #ec93d3
+#color14 = #93e0e3
+#color15 = #ffffff
+
+### visibone-alt.2
+# special
+foreground      = #cccccc
+foreground_bold = #cccccc
+cursor          = #cccccc
+background      = #333333
+# black
+color0  = #666666
+color8  = #999999
+# red
+color1  = #cc6699
+color9  = #ff99cc
+# green
+color2  = #99cc66
+color10 = #ccff99
+# yellow
+color3  = #cc9966
+color11 = #ffcc99
+# blue
+color4  = #6699cc
+color12 = #99ccff
+# magenta
+color5  = #9966cc
+color13 = #cc99ff
+# cyan
+color6  = #66cc99
+color14 = #99ffcc
+# white
+color7  = #cccccc
 color15 = #ffffff
+
+## Baskerville - Eldorado dark
+# special
+#foreground      = #a2a2a2
+#foreground_bold = #a2a2a2
+#cursor          = #a2a2a2
+#background      = #292929
+## black
+#color0  = #4e4e4e
+#color8  = #777777
+## red
+#color1  = #a9635d
+#color9  = #ffbbb2
+## green
+#color2  = #468459
+#color10 = #9ddeaf
+## yellow
+#color3  = #84763d
+#color11 = #e0ce91
+## blue
+#color4  = #5879af
+#color12 = #b3d1ff
+## magenta
+#color5  = #9c6594
+#color13 = #fabdf0
+## cyan
+#color6  = #008592
+#color14 = #79e0ed
+## white
+#color7  = #cfcfcf
+#color15 = #ffffff
+
+## Muse
+# special
+#foreground      = #ffffff
+#foreground_bold = #ffffff
+#cursor          = #ffffff
+#background      = #000000
+## black
+#color0  = #2e3436
+#color8  = #555753
+## red
+#color1  = #a31604
+#color9  = #c60001
+## green
+#color2  = #447241
+#color10 = #27a343
+## yellow
+#color3  = #c1951a
+#color11 = #d5a30e
+## blue
+#color4  = #425387
+#color12 = #4a5a8d
+## magenta
+#color5  = #965d98
+#color13 = #893c8c
+## cyan
+#color6  = #06989a
+#color14 = #12bccb
+## white
+#color7  = #d3d7cf
+#color15 = #eeeeec
+
+## Tartan
+# special
+#foreground      = #dedede
+#foreground_bold = #dedede
+#cursor          = #dedede
+#background      = #2b2b2b
+## black
+#color0  = #2e3436
+#color8  = #555753
+## red
+#color1  = #cc0000
+#color9  = #ef2929
+## green
+#color2  = #4e9a06
+#color10 = #8ae234
+## yellow
+#color3  = #c4a000
+#color11 = #fce94f
+## blue
+#color4  = #3465a4
+#color12 = #729fcf
+## magenta
+#color5  = #7a437a 
+#color13 = #ad76ad 
+## cyan
+#color6  = #06989a
+#color14 = #34e2e2
+## white
+#color7  = #d3d7cf
+#color15 = #eeeeec
 
 [hints]
 #font = Monospace 12

@@ -1,10 +1,7 @@
 #! /bin/bash
 DIR="$(dirname "$0")"
 source $DIR/utils.bash
-if isVerboseSet $@; then
-  VERBOSE=1
-fi
-
+redirectStdoutStderrIfNotVerbose $@
 ##################
 ## install nvim ##
 ##################
@@ -47,6 +44,7 @@ mkdir -p $HOME/.config/nvim/
 lnif $DOTFILES/neovim/init.vim $HOME/.config/nvim/init.vim
 
 ## set neo vim to be the default editor
+restoreStdoutStderr
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
 sudo update-alternatives --config vi
 sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60

@@ -31,6 +31,6 @@ lnif $DOTFILES/termite/config $HOME/.config/termite/config
 
 # change terminal emulator
 restoreStdoutStderr
-printf "sudo needed to set default x-terminal-emulator"
+printf "sudo needed to set default x-terminal-emulator\n"
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/termite 100
 sudo update-alternatives --config x-terminal-emulator

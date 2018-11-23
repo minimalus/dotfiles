@@ -1,3 +1,10 @@
+#! /bin/bash
+DIR="$(dirname "$0")"
+source $DIR/utils.bash
+redirectStdoutStderrIfNotVerbose $@
+#############################
+## install ipython jupyter ##
+#############################
 ## from https://github.com/lambdalisue/jupyter-vim-binding/wiki/Installation
 pip install jupyter_contrib_nbextensions --user
 jupyter contrib nbextension install --user

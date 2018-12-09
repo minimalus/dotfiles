@@ -39,6 +39,8 @@ source $DOTFILE_ZSH_DIR/completion.zsh
 source $DOTFILE_ZSH_DIR/directory.zsh
 ## load history features
 source $DOTFILE_ZSH_DIR/history.zsh
+## load ls colors
+source $DOTFILE_ZSH_DIR/ls_colors.zsh
 
 ## setup fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

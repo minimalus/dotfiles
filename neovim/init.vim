@@ -67,6 +67,8 @@ nnoremap <leader>7 :buffer 7<CR>
 nnoremap <leader>8 :buffer 8<CR>
 nnoremap <leader>9 :buffer 9<CR>
 
+" Delete trailing white spaces
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " Theme and Styling
 syntax on

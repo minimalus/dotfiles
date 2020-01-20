@@ -1,6 +1,9 @@
 ## Get actual location of zshrc file from dotfiles (of course from stackoverflow)
 DOTFILE_ZSH_DIR="$(dirname "$(readlink -f "$HOME/.zshrc")")"
 
+## folder of all of own autocomplete functions
+fpath=($HOME/.zsh/completions $fpath)
+
 ## Enable autocompletions
 autoload -Uz compinit
 typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
@@ -22,12 +25,14 @@ setopt completeinword # complete inside words
 setopt nolistambiguous # only list matches if ambiguous
 setopt nolistbeep # don't beep on ambiguous listings
 
-## folder of all of own autocomplete functions
-fpath=($HOME/.zsh-completions $fpath)
-
 ## enable warning message of zsh completions
 zstyle ':completion:*' verbose yes 
 zstyle ':completion:*:warnings' format 'No matches for: %d'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+# according to the internet, this should make zsh much faster
+zstyle ':completion:*' accept-exact '*(N)'
+
 
 ## load antibody plugins
 source ~/.zsh_plugins.sh
@@ -65,3 +70,6 @@ fi
 ## alias to update antibody plugins for static loading
 alias zsh_plugin_update='antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh && antibody update'
 
+
+export WERKSTATT="/home/althofda/werkstatt"
+source $WERKSTATT/.werkstattrc.bash
